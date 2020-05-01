@@ -23,15 +23,12 @@ class App extends React.Component {
 				const userRef = await createUserProfileDocument(userAuth);
 				userRef.onSnapshot((snapshot) => {
 					// I had to store the db data in the app state
-					this.setState(
-						{
-							currentUser: {
-								id: snapshot.id,
-								...snapshot.data(),
-							},
+					this.setState({
+						currentUser: {
+							id: snapshot.id,
+							...snapshot.data(),
 						},
-						() => console.log(this.state)
-					);
+					});
 				});
 			} else {
 				this.setState({ currentUser: userAuth });
