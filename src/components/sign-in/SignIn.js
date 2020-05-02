@@ -32,7 +32,6 @@ class SignIn extends React.Component {
 
 	render() {
 		const { email, password } = this.state;
-		
 
 		return (
 			<div className='signin'>
@@ -62,7 +61,7 @@ class SignIn extends React.Component {
 							type='submit'
 							isGoogleSignin
 						>
-							{''} sign in with google {''}
+							sign in with google
 						</CustomButton>
 					</div>
 				</form>
