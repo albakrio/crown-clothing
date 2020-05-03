@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 import HomePage from './pages/homepage/HomePage';
@@ -14,18 +14,18 @@ class App extends React.Component {
 
 	componentDidMount() {
 		const { setCurrentUser } = this.props;
-		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => { //userAuth is the user info in Authentication
 			if (userAuth) {
 				const userRef = await createUserProfileDocument(userAuth);
 				userRef.onSnapshot((snapshot) => {
-					// I had to store the db data in the app state
+					// I had to store the db data in the app state; snapshot is info of the db
 					setCurrentUser({
 						id: snapshot.id,
 						...snapshot.data(),
 					});
 				});
 			} else {
-				setCurrentUser({ userAuth });
+				setCurrentUser(userAuth);
 			}
 		});
 	}
@@ -36,19 +36,29 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className='App'>
-				<Header  />
+				<Header />
 				<Switch>
-					<Route component={HomePage} path='/' exact />
+					<Route exact component={HomePage} path='/' />
 					<Route component={ShopPage} path='/shop' />
-					<Route component={SigninAndSignup} path='/signin' />
+					<Route
+						exact
+						path='/signin'
+						render={() =>
+							this.props.currentUser ? <Redirect to='/' /> : <SigninAndSignup />
+						}
+					/>
 				</Switch>
 			</div>
 		);
 	}
 }
 
+const mapStateToProps = ({user}) => ({
+	currentUser: user.currentUser
+});
+
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
