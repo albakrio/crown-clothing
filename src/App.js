@@ -45,7 +45,7 @@ class App extends React.Component {
 			<div
 				onClick={() => {
 					if (this.props.toggleCartHidden === false) {
-						return this.props.toggleCartHiddenBody;
+						return this.props.toggleCartHiddenBody();
 					}
 				}}
 				className='App'
