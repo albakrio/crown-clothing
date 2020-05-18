@@ -7,7 +7,7 @@ import './collection.scss';
 const Collection = ({ collection, match }) => {
 	const { title, items } = collection;
 	return (
-		<div className='collection'>
+		<div className='collection-page'>
 			<h2 className='title'>{title}</h2>
 			<div className='items'>
 				{items.map((item) => (

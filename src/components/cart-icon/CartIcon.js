@@ -6,7 +6,14 @@ import { selectItemCount } from '../../redux/cart/cart.selectors';
 import './cart-icon.scss';
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
-	<div className='cart-icon' onClick={toggleCartHidden}>
+	<div
+		className='cart-icon'
+		onClick={(e) => {
+			// I've done this to stop the conflict with the app div
+			e.stopPropagation();
+			toggleCartHidden();
+		}}
+	>
 		<ShoppingIcon className='shopping-icon' />
 		<span className='item-count'>{itemCount}</span>
 	</div>

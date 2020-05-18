@@ -11,6 +11,8 @@ import Checkout from './pages/checkout/Checkout';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { toggleCartHiddenBody } from './redux/cart/cart.actions';
+import { selectHidden } from './redux/cart/cart.selectors';
 
 class App extends React.Component {
 	unsubscribeFromAuth = null;
@@ -37,9 +39,17 @@ class App extends React.Component {
 	componentWillUnmount() {
 		this.unsubscribeFromAuth();
 	}
+
 	render() {
 		return (
-			<div className='App'>
+			<div
+				onClick={() => {
+					if (this.props.toggleCartHidden === false) {
+						return this.props.toggleCartHiddenBody;
+					}
+				}}
+				className='App'
+			>
 				<Header />
 				<Switch>
 					<Route exact component={HomePage} path='/' />
@@ -60,10 +70,12 @@ class App extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
 	currentUser: selectCurrentUser,
+	toggleCartHidden: selectHidden,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+	toggleCartHiddenBody: () => dispatch(toggleCartHiddenBody()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
