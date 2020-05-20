@@ -1,22 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ReactComponent as ShoppingIcon } from '../../assets/bag.svg';
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import { selectItemCount } from '../../redux/cart/cart.selectors';
-import './cart-icon.scss';
-
+import { ItemCount, ShoppingIcon, CartIconContainer } from './CartIcon.styles';
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
-	<div
-		className='cart-icon'
+	<CartIconContainer
 		onClick={(e) => {
 			// I've done this to stop the conflict with the app div
 			e.stopPropagation();
 			toggleCartHidden();
 		}}
 	>
-		<ShoppingIcon className='shopping-icon' />
-		<span className='item-count'>{itemCount}</span>
-	</div>
+		<ShoppingIcon />
+		<ItemCount>{itemCount}</ItemCount>
+	</CartIconContainer>
 );
 const mapStateToProps = (state) => ({
 	itemCount: selectItemCount(state),
