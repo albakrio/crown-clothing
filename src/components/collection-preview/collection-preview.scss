@@ -3,13 +3,31 @@
   flex-direction: column;
   margin-bottom: 30px;
 
+  @media(max-width: 45em) {
+    align-items: center;
+  }
+
   .title {
     font-size: 28px;
     margin-bottom: 25px;
+
+    @media(max-width: 45em) {
+      text-align: center;
+    }
   }
 
   .preview {
+
     display: flex;
     justify-content: space-between;
+
+    @media(max-width: 45em) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+
+
+
+    }
   }
 }

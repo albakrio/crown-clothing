@@ -5,10 +5,26 @@
   justify-content: space-between;
   margin-bottom: 25px;
 
+  @media (max-width: 45em) {
+    //width: 120%;
+    height: 60px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
   .logo-container {
     height: 100%;
     width: 70px;
     padding: 25px;
+
+    @media (max-width: 45em) {
+      position: relative;
+      width: 50px;
+      padding: 0;
+      right: 40px;
+
+
+    }
   }
 
 
@@ -20,10 +36,24 @@
     align-items: center;
     justify-content: flex-end;
 
+    @media (max-width: 45em) {
+      width: unset;
+
+
+
+    }
+
+
   }
 
   .option {
+    display: flex;
     padding: 10px 15px;
     cursor: pointer;
+
+
+
+
+
   }
 }

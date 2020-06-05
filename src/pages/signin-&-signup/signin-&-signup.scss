@@ -2,5 +2,21 @@
   width: 850px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 30px auto;
+
+  @media(max-width:45em) {
+    width: unset;
+    flex-direction: column;
+    align-items: center;
+
+    >*:first-child {
+      margin-bottom: 50px;
+    }
+
+
+
+
+
+  }
 }

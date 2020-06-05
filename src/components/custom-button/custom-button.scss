@@ -17,6 +17,10 @@
   align-items: center;
   justify-content: center;
 
+  @media(max-width: 45em) {
+    width: unset;
+  }
+
 
   &:hover {
     background-color: white;
