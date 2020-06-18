@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -14,17 +14,18 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 import { toggleCartHiddenBody } from './redux/cart/cart.actions';
 import { selectHidden } from './redux/cart/cart.selectors';
 
-class App extends React.Component {
-	unsubscribeFromAuth = null;
-
-	componentDidMount() {
-		const { setCurrentUser } = this.props;
-		this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-			//userAuth is the user info in Authentication
+const App = ({
+	setCurrentUser,
+	toggleCartHidden,
+	currentUser,
+	toggleCartHiddenBody,
+}) => {
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
 			if (userAuth) {
 				const userRef = await createUserProfileDocument(userAuth);
+
 				userRef.onSnapshot((snapshot) => {
-					// I had to store the db data in the app state; snapshot is info of the db
 					setCurrentUser({
 						id: snapshot.id,
 						...snapshot.data(),
@@ -34,39 +35,36 @@ class App extends React.Component {
 				setCurrentUser(userAuth);
 			}
 		});
-	}
+		return () => {
+			unsubscribe();
+		};
+	}, [setCurrentUser]);
 
-	componentWillUnmount() {
-		this.unsubscribeFromAuth();
-	}
-
-	render() {
-		return (
-			<div
-				onClick={() => {
-					if (this.props.toggleCartHidden === false) {
-						return this.props.toggleCartHiddenBody();
+	return (
+		<div
+			onClick={() => {
+				if (toggleCartHidden === false) {
+					return toggleCartHiddenBody();
+				}
+			}}
+			className='App'
+		>
+			<Header />
+			<Switch>
+				<Route exact component={HomePage} path='/' />
+				<Route component={ShopPage} path='/shop' />
+				<Route exact component={Checkout} path='/checkout' />
+				<Route
+					exact
+					path='/signin'
+					render={() =>
+						currentUser ? <Redirect to='/' /> : <SigninAndSignup />
 					}
-				}}
-				className='App'
-			>
-				<Header />
-				<Switch>
-					<Route exact component={HomePage} path='/' />
-					<Route component={ShopPage} path='/shop' />
-					<Route exact component={Checkout} path='/checkout' />
-					<Route
-						exact
-						path='/signin'
-						render={() =>
-							this.props.currentUser ? <Redirect to='/' /> : <SigninAndSignup />
-						}
-					/>
-				</Switch>
-			</div>
-		);
-	}
-}
+				/>
+			</Switch>
+		</div>
+	);
+};
 
 const mapStateToProps = createStructuredSelector({
 	currentUser: selectCurrentUser,
