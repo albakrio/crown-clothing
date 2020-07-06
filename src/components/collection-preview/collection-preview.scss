@@ -11,6 +11,11 @@
     font-size: 28px;
     margin-bottom: 25px;
 
+    &:hover {
+      cursor: pointer;
+      color: rgb(129, 129, 125);
+    }
+
     @media(max-width: 45em) {
       text-align: center;
     }
