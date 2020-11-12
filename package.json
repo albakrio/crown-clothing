@@ -4,15 +4,15 @@
   "license": "UNLICENSED",
   "engines": {
     "node": "14.2.0",
-    "npm": "6.14.4"
+    "yarn": "1.22.10"
   },
   "scripts": {
     "client": "cd client && yarn start",
     "server": "nodemon server.js",
-    "build": "cd client && npm run build",
+    "build": "cd client && yarn build",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "cd client && yarn && yarn --only=dev --no-shrinkwrap && yarn build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
